@@ -3,10 +3,67 @@
     <head>
         <title>Hello World from express server</title>
 		<link rel="stylesheet" href="css/styles.css">
+        <style type="text/css">
+            html {
+                width: 100%;
+                height: 100%;
+                -webkit-box-sizing: border-box; 
+                -moz-box-sizing: border-box;   
+                box-sizing: border-box;  
+            }
+            body {
+                width: 100%;
+                height: 120%;
+                margin: 0 0 0 0;
+                background-color: #BBB;
+            }
+            * { 
+                -webkit-box-sizing: border-box; 
+                -moz-box-sizing: border-box;   
+                box-sizing: border-box;
+            }
+            span.persName, span.placeName, span.name {
+                color: inherit;
+                font-weight: inherit;
+                border-style: solid;
+                border-width: 1px;
+            }
+            span.persName {
+                border-color: #FF0000;
+            }
+            span.placeName {
+                border-color: #0070C0;
+            }
+            span.name {
+                border-color: #7030A0;
+            }
+            .tei-type-page {
+                border: 1px solid black;
+                width: 33%;
+                background-color: #FFF;
+            }
+        </style>
 		<script src="/reload/reload.js"></script>
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/lodash/dist/lodash.min.js"></script>
 		<script src="js/code.js"></script>
     </head>
     <body>
-
+	    <div class="tei-type-page">
+		    <p class="tei-p tei-rend-folio folio">
+               <span class="mecmua_Kommentare_zur_Handschrift tei-hi tei-rend-mecmua_Kommentare_zur_Handschrift"><span class="hi">AF268: 20v </span></span>
+            </p>
+			<p class="tei-p">ʿalā l‑muslimīna </span></span> ve durūd‑i nā‑maʿdūd ḥabīb‑i mülk‑i vedūd <span xmlns="" class="tagged-data persName " data-tag-ref="AF268d27e26822/uni_hausmittel_d27e131">Muṣṭafā</span> ve <span xmlns="" class="tagged-data persName " data-tag-ref="AF268d27e26822/uni_hausmittel_d27e131">Muḥammed</span> // <span xmlns="" class="tagged-data persName " data-tag-ref="AF268d27e26822/uni_hausmittel_d27e131">Maḥmūd</span> ki dīn‑i islām‑i maṣūn ve ümmetine taʿlīm‑i fetḥ‑i ḥuṣūn eyleyüp<span xmlns=""> </span><span class="mecmua_Arab_Zchn tei-hi tei-rend-mecmua_Arab_Zchn"><span class="hi">al‑ǧihādu </p>
+            <p class="folio">
+                <span class="mecmua_Kommentare_zur_Handschrift">AF268: 94r</span>
+            </p>
+			<p class="tei-p">344	<span xmlns="" class="tagged-data name auxSubst" data-tag-ref="AF268d27e198165/uni_darling_d27e198395">Żamad</span>‑i<span xmlns=""> </span>[!]<span xmlns=""> </span><span xmlns="" class="tagged-data persName " data-tag-ref="AF268d27e198165/uni_darling_d27e198434">Dāniyāl</span>ı eyle aña <br>
+Eyü olub seni duʿāda aña</p>
+            <p>ʿilāc‑i <span class="tagged-data name illness" data-tag-ref="d25e193197/d25e193526">raʿşe</p>
+			<p class="tei-p tei-rend-folio folio">
+               <span class="mecmua_Kommentare_zur_Handschrift tei-hi tei-rend-mecmua_Kommentare_zur_Handschrift"><span class="hi">AF268: 80v </span></span>
+            </p>
+			<p class="tei-p"><span xmlns="" class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke</span>‑i mükerrimeden bir şeyḫüñ vāqiʿasında girüb buyurdılar yā şeyḫ ol iki ṭaş diyār‑i <span xmlns="" class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6577">Rūm</span>da <span xmlns="" class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_ömer_d27e27343">Edirne</span></p>
+        </div>
     </body>
 </html>

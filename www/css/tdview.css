@@ -1,0 +1,53 @@
+span.tagged-data {
+    display: inline-block;
+    position: relative;
+}
+
+span.tdview {
+     display: none;
+     position: absolute;
+     border: 1px solid;
+     border-color: inherit;
+     border-radius: 5px;
+     background: #FFF;
+     padding: 0 0.3em 0.2em 0.1em;
+     z-index: 100;
+     margin-bottom: 0;
+     margin-top: 8px;
+     min-width: 17em;
+}
+
+ span.tdview:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 10px;
+      border-style: solid;
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-top-color: transparent;
+      border-bottom-color: inherit;
+      top: -20px;
+      left: 10px;      
+ }
+ span.tagged-data:hover span.tdview,
+ span.tdview:active,
+ span.tdview:hover {
+     display: block;
+ }
+
+span.tdview .label:after {
+    content: ":\00a0"
+}
+
+span.tdview .label,
+span.tdview .text {
+    display: inline-block;
+    min-width: 8em;
+    max-width: 15em;
+}
+span.tdview .label {
+    white-space: nowrap;
+}
+

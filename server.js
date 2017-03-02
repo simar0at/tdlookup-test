@@ -41,10 +41,23 @@ app.get('/indexes.xml/:list/:xmlid', function(req, res) {
 function getByXmlIdOrGetList (xmlid_or_list) {
     var result = XMLasJSON.TEI.text.body[xmlid_or_list];
     if (result === undefined) {
-        result = filteredBody(xmlid_or_list);
-        result = result[Object.keys(result)[0]]
-        result = (Array.isArray(result) && result.length === 1) ? result[0] : result; 
-    }
+        var filteredList = filteredBody(xmlid_or_list),
+            count = 0,
+            itemName = "";
+        filteredList = filteredList[Object.keys(filteredList)[0]]
+        filteredList = (Array.isArray(filteredList) && filteredList.length === 1) ? filteredList[0] : filteredList;
+        itemName = Object.keys(filteredList)[0];
+        _.forEach(filteredList, function(item){
+            count += Array.isArray(item) ? item.length : 1;
+        });
+        result = _.assign({},
+           _.cloneDeepWith(filteredList, function(o){
+               if (_.isArray(o) && o.length === 1) {
+                   return o[0];
+               } 
+           })
+           , {'count': String(count)});
+        }
     return result;
 }
 

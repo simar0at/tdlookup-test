@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "lodash": "^4.17.4",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "urijs": "URIjs#^1.18.7"
   }
 }

@@ -51,14 +51,12 @@
                     return;
                 if (tagData.item !== undefined) {
                     tagData = firstIfArray('item', tagData);
-                    module.tagData[tagData.item['xml:id']] = tagData;
                 } else if (tagData.person !== undefined) {
                     tagData = firstIfArray('person', tagData);
-                    module.tagData[tagData.person['xml:id']] = tagData;
                 } else if (tagData.place !== undefined) {
                     tagData = firstIfArray('place', tagData);
-                    module.tagData[tagData.place['xml:id']] = tagData;
                 }
+                module.tagData[tagData[tagData.dataType]['xml:id']] = tagData;
             },
             complete: function() {
                 whenDone();
@@ -67,10 +65,11 @@
     };
 
     function firstIfArray(dataType, tagData) {
-        if (tagData.count !== '1') {
+        if (tagData.count !== '1' && Array.isArray(tagData[dataType])) {
             console.log("Error: more than one annotation");
             tagData[dataType] = tagData[dataType][0];
         }
+        tagData.dataType = dataType;
         console.log("Trace: loaded id "+tagData[dataType]['xml:id']+".");
         return tagData;        
     }
@@ -99,7 +98,7 @@
         var tagDataView = module.tdViewProto.clone();
         var tagDataViewLine = $(module.tdViewProto.html());
         var data = module.tagData[tagRef];
-        var type = Object.keys(data)[0];
+        var type = data.dataType;
         if (type === 'item') {
             var text = $.isArray(data.item.name) ? data.item.name[0]['#text'] : data.item.name['#text'];
             if (text === undefined)

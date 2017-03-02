@@ -1,4 +1,4 @@
-!function(_, $) {
+!function(_, $, TDView) {
     m = {};
 
     _.assign(_.templateSettings, {
@@ -7,5 +7,11 @@
 			interpolate: /\{\{([\s\S]+?)\}\}/g 
 		});
 	
-	window.MainModule = m;
-}(_, jQuery);
+	$(document).ready(function (){
+        TDView.attachTagData(function(){
+        	console.log('attachTagData finished.');
+        })
+	});
+
+	this.MainModule = m;
+}(_, jQuery, TDView);

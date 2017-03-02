@@ -50,28 +50,28 @@
             <p class="folio">
                 <span class="mecmua_Kommentare_zur_Handschrift">AF268: 94r</span>
             </p>
-            <p>344	<span class="tagged-data name auxSubst" data-tag-ref="d25e193197/d25e193426">Żamad<span class="tdview" id="template">
+            <p>344	<span class="tagged-data name auxSubst" data-tag-ref="AF268d27e198165/uni_darling_d27e198395">Żamad<span class="tdview" id="template_item">
                         <span class="label">Name (ottoman)</span>
-                        <span class="text">Żamad</span>
+                        <span class="text">{{ name['preferred'].#text }}</span>
                         <br/>
-                        <span class="label remove-for-production">Meaning (in english)</span>
-                        <span class="text remove-for-production">bandage; medical application; ointment</span>
-                        <br class="remove-for-production"/>
-                        <span class="label remove-for-production">Meaning (in latin)</span>
-                        <span class="text remove-for-production">n.a.</span>
-                        <br class="remove-for-production"/>
-                        <span class="label remove-for-production">Note</span>
-                        <span class="text remove-for-production">correct version: żımād</span>
+                        <span class="label">Meaning (in english)</span>
+                        <span class="text">{{ cit.sense['en-UK'].#text }}</span>
+                        <br class=""/>
+                        <span class="label">Meaning (in latin)</span>
+                        <span class="text">{{ cit.sense['la'].#text }}</span>
+                        <br class=""/>
+                        <span class="label">Note</span>
+                        <span class="text">{{ note }}</span>
                     </span>
-                </span>‑i [!] <span class="tagged-data persName " data-tag-ref="d25e193197/d25e193465">Dāniyāl<span class="tdview">
+                </span>‑i [!] <span class="tagged-data persName " data-tag-ref="AF268d27e198165/uni_darling_d27e198434">Dāniyāl<span class="tdview" id="template_person">
                         <span class="label">Name (ottoman)</span>
-                        <span class="text">Dāniyāl</span>
+                        <span class="text">{{ persName['preferred'].#text }}</span>
                         <br/>
                         <span class="label">Occupation</span>
-                        <span class="text">Prophet</span>
+                        <span class="text">[{ occupation }}</span>
                         <br/>
                         <span class="label">Note</span>
-                        <span class="text">Daniel; “two biblical characters bearing the same Daniel, the sage of ancient times mentioned by Ezekiel […] and the visionary who lived at the time of the captivity in Babylon” [Cf. EI2, s.v. Dāniyāl]</span>
+                        <span class="text">{{ note }}</span>
                     </span>
                 </span>ı eyle aña <br/>	Eyü olub seni duʿāda aña</p>
             <p>ʿilāc‑i <span class="tagged-data name illness" data-tag-ref="d25e193197/d25e193526">raʿşe<span class="tdview">
@@ -87,15 +87,15 @@
                 </span>
             </p>
             <p>
-                <span class="tagged-data placeName " data-tag-ref="AF268d23e170522/d23e171357">Mekke<span class="tdview">
+                <span class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke<span class="tdview" id="template_place">
                     <span class="label">Name (ottoman)</span>
-                    <span class="text">Mekke</span><br/>                    
+                    <span class="text">{{ persName['preferred'].#text }}</span><br/>                    
                     <span class="label">Also known as (en-UK)</span>
-                    <span class="text">Mecca</span><br/>
+                    <span class="text">{{ persName['en-UK'].#text }}</span><br/>
                     <span class="label">This belongs today to the country</span>
-                    <span class="text">Saudi Arabia</span><br/>
+                    <span class="text">{{ location.country.#text }}</span><br/>
                     <span class="label">Note</span>
-                    <span class="text">Cf. EI2, s.v. Makka.</span>
+                    <span class="text">{{ note }}</span>
                 </span>
                 </span>‑i mükerrimeden bir şeyḫüñ vāqiʿasında girüb buyurdılar yā şeyḫ ol iki ṭaş diyār‑i <span class="tagged-data placeName " data-tag-ref="AF268d23e170522/d23e96523">Rūm<span class="tdview">
                     <span class="label">Name (ottoman)</span>

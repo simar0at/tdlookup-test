@@ -1,6 +1,8 @@
 !function($, params, URI) {
     var module = {};
-    module.tdViewProto;
+    module.tdViewProtoPerson = {length: 0};
+    module.tdViewProtoPlace = {length: 0};
+    module.tdViewProtoItem = {length: 0};
     module.failed = false;
 
     if (URI === undefined) {
@@ -13,11 +15,22 @@
                 module.failed = true;
             },
             success: function(unused, unused2, jqXHR) {
-                module.tdViewProto = $(jqXHR.responseText).find('#template');
-                module.failed = (module.tdViewProto.length === undefined ||
-                        module.tdViewProto.length !== 1);
-                module.tdViewProto.find('.remove-for-production').remove();
-                module.tdViewProto.removeAttr('id');
+                module.tdViewProtoPerson = $(jqXHR.responseText).find('#template_person');
+                module.tdViewProtoPlace = $(jqXHR.responseText).find('#template_place');
+                module.tdViewProtoItem = $(jqXHR.responseText).find('#template_item');
+                module.failed = (module.tdViewProtoPerson.length === undefined ||
+                        module.tdViewProtoPerson.length !== 1||
+                        module.tdViewProtoPlace.length === undefined ||
+                        module.tdViewProtoPlace.length !== 1||
+                        module.tdViewProtoItem.length === undefined ||
+                        module.tdViewProtoItem.length !== 1                     
+                        );
+                module.tdViewProtoPerson.find('.remove-for-production').remove();
+                module.tdViewProtoPerson.removeAttr('id');
+                module.tdViewProtoPlace.find('.remove-for-production').remove();
+                module.tdViewProtoPlace.removeAttr('id');
+                module.tdViewProtoItem.find('.remove-for-production').remove();
+                module.tdViewProtoItem.removeAttr('id');
             }
         });
     }

@@ -1,0 +1,21 @@
+{
+  "name": "buildwebsite",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Omar Siam <simar@gmx.net>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}

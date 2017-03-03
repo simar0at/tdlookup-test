@@ -1,0 +1,40 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Mocha Tests</title>
+  <link href="../../../bower_components/mocha/mocha.css" rel="stylesheet"/>
+  <link href="../../../css/tdview.css" rel="stylesheet"/>
+  <script src="/reload/reload.js"></script>
+</head>
+<body>
+  <div id="fixture"></div>
+  <div id="mocha"></div>
+
+  <script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
+  <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Uses ajax. Slim is not an option -->
+  <script src="../../../bower_components/chai/chai.js"></script>
+  <script src="../../../bower_components/chai-jquery/chai-jquery.js"></script>
+  <script src="../../../bower_components/mocha/mocha.js"></script>
+  <script src="../../../bower_components/sinonjs/sinon.js"></script>
+  <script src="../../../bower_components/urijs/src/URI.min.js"></script>
+  <script>
+  var params = {
+	"templateLocation" : "../../",
+	"tdLookupEndpoint" : "http://localhost:8090/restxq/tdlookup/v1/"
+  }
+  </script>
+  <script src="../../tdview.js"></script>
+
+  <script>
+    mocha.setup('bdd');
+	chai.should();
+  </script>
+  <script src="test.xhr.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    mocha.run();
+  </script>
+</body>
+</html>

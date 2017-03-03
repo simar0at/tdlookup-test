@@ -1,4 +1,4 @@
-!function($, params, URI) {
+!function($, params, URI, _) {
     var module = {};
     module.tdViewProtoPerson = {length: 0};
     module.tdViewProtoPlace = {length: 0};
@@ -108,11 +108,12 @@
 
     var createAndAttachTagData = function(tagRef, theTagged) {
         //create tag data view
-        var tagDataView = module.tdViewProto.clone();
-        var tagDataViewLine = $(module.tdViewProto.html());
-        var data = module.tagData[tagRef];
-        var type = data.dataType;
+        var tagDataView = {},
+            tagDataViewLine = $(module.tdViewProto.html()),
+            data = module.tagData[tagRef],
+            type = data.dataType;
         if (type === 'item') {
+            tagDataView = module.tdViewProtoItem.clone();
             var text = $.isArray(data.item.name) ? data.item.name[0]['#text'] : data.item.name['#text'];
             if (text === undefined)
                 text = 'n.a.';
@@ -136,6 +137,7 @@
                         .appendTo(tagDataView);
             }
         } else if (type === 'person') {
+            tagDataView = module.tdViewProtoPerson.clone();
             var text = $.isArray(data.person.persName) ? data.person.persName[0]['#text'] : data.person.persName['#text'];
             if (text === undefined)
                 text = 'n.a.';
@@ -166,6 +168,7 @@
                         .appendTo(tagDataView);
             }
         } else if (type === 'place') {
+            tagDataView = module.tdViewProtoPlace.clone();
             var text = data.place.placeName['#text']
             if (text === undefined)
                 text = 'n.a.';
@@ -252,6 +255,69 @@
         syncAndTag(taggedWords, whenDone);
     };
 
+    // easy the templating
+
+    function amendLangAndTypeProperties(object) {
+        var xml_langs = getAllPossibleValuesForKeyDeep(object, 'xml:lang'),
+            types = getAllPossibleValuesForKeyDeep(object, 'type');
+        _.forEach(xml_langs, function(filterValue){
+            injectGetterDeep(object, 'xml:lang', filterValue);            
+        });
+        _.forEach(types, function(filterValue){
+            injectGetterDeep(object, 'type', filterValue);            
+        }); 
+    }
+    
+
+    function getAllPossibleValuesForKeyDeep(object, keyName) {
+        var values = [];
+        _.map(object, function(value, key) {
+           if (_.isObject(value)) {
+               values.push(getAllPossibleValuesForKeyDeep(value, keyName)) 
+           } else if (key === keyName) {
+               values.push(value);
+           }
+        });
+        return _.uniq(_.flatten(values));
+    }
+
+    function injectGetterDeep(object, filterKey, filterValue) {
+        _.map(object, function(value, key) {
+            if (_.isObject(value)) {
+                addGetterProperty(value, filterValue, _.bind(returnFilteredArrayOrItem, this, key, value, filterKey, filterValue))
+                injectGetterDeep(value, filterKey, filterValue);
+            } 
+        });        
+    }
+
+    function addGetterProperty(object, propertyName, getter) {
+        Object.defineProperty(object, propertyName, {
+            get: getter
+        })
+    }
+
+    function returnFilteredArrayOrItem(objectName, object_or_array, filterKey, filterValue) {
+        if (_.isArray(object_or_array)) {
+            var filteredArray = _.filter(object_or_array, function(value) {
+                return value[filterKey] === filterValue; 
+            });
+            if (filteredArray.length === 1) {return filteredArray[0];}
+            if (filteredArray.length > 1) {return _.reduce(filteredArray, function(objValue,srcValue) {               
+                _.forEach(_.keys(srcValue), function(key) {
+                    if (objValue[key] === undefined) {objValue[key] = [];}
+                    objValue[key] = _.concat(objValue[key], srcValue[key]);
+                });
+                return objValue;
+            }, {});
+            }
+        } else if (object_or_array[filterKey] === filterValue) {
+            return object_or_array;
+        }
+        //undefined
+    }
+
+    module.amendLangAndTypeProperties = amendLangAndTypeProperties;
+
     // publish
     this.TDView = module;
-}(window.jQuery, params, URI);
+}(window.jQuery, params, URI, _);

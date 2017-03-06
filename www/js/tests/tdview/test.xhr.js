@@ -107,7 +107,7 @@ describe("TDView", function(){
 				done();
 			});
 		});
-		it("should attach a person annotation", function(done){
+		it("should attach a place annotation", function(done){
 			loadFixture('mekka.html').done(function(){
 				stubAjax();
 				$('.tagged-data.placeName > .tdview').should.not.exist;
@@ -118,7 +118,7 @@ describe("TDView", function(){
 				requests[0].respond(200, {
 					"Content-Type": "application/json" 
 					},
-                    '{ "place" : { "xml:id" : "uni_sieverek_d27e6597", "type" : "town", "placeName" : [{ "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "Mekke" }, { "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "Makka" }, { "xml:lang" : "en-UK", "#text" : "Mecca, Makkah" }], "location" : { "country" : "Saudi Arabia" } }, "count" : "1" }');
+                    '{ "place" : { "xml:id" : "uni_sieverek_d27e6597", "type" : "town", "placeName" : [{ "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "Mekke" }, { "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "Makka" }, { "xml:lang" : "en-UK", "#text" : "Mecca, Makkah" }], "location" : { "country" : "Saudi Arabia" } }, "count" : "1" }');
 			});								
 		})
 	});
@@ -144,7 +144,7 @@ describe("TDView", function(){
 				requests[1].respond(200, {
 					"Content-Type": "application/json" 
 					},
-                    '{ "item" : { "xml:id" : "uni_darling_d27e198398", "name" : { "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "żamad" }, "cit" : { "type" : "translation", "sense" : { "xml:lang" : "en-UK", "#text" : "bandage; medical application; ointment" } }, "note" : "correct version: żımād" }, "count" : "1" }');
+                    '{ "item" : { "xml:id" : "uni_darling_d27e198398", "name" : { "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "żamad" }, "cit" : { "type" : "translation", "sense" : [{ "xml:lang" : "en-UK", "#text" : "bandage; medical application; ointment" }, { "xml:lang" : "la", "#text" : "fascia" }] }, "note" : "correct version: żımād" }, "count" : "1" }');
 			});								
 		})
 	});

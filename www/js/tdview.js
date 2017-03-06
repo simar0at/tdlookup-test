@@ -1,9 +1,29 @@
 !function($, params, URI, _) {
-    var module = {};
-    module.tdViewProtoPerson = {length: 0};
-    module.tdViewProtoPlace = {length: 0};
-    module.tdViewProtoItem = {length: 0};
+    var module = {},
+	    mustacheLikeTemplate = {
+			escape: /\{\{-([\s\S]+?)\}\}/g,
+			evaluate: /\{%([\s\S]+?)%\}/g,
+			interpolate: /\{\{([\s\S]+?)\}\}/g			
+		};
+    module.tdViewProtoPerson = function(data){return ""};
+    module.tdViewProtoPlace = function(data){return ""};
+    module.tdViewProtoItem = function(data){return ""};
     module.failed = false;
+	
+	// Add an outerHTML() to jQuery. Used below.
+	// see https://css-tricks.com/snippets/jquery/outerhtml-jquery-plugin/
+	$.fn.outerHTML = function(){
+ 
+      // IE, Chrome & Safari will comply with the non-standard outerHTML, all others (FF) will have a fall-back for cloning
+      return (!this.length) ? this : (this[0].outerHTML || (
+        function(el){
+            var div = document.createElement('div');
+            div.appendChild(el.cloneNode(true));
+            var contents = div.innerHTML;
+            div = null;
+            return contents;
+        })(this[0]));
+    }
 
     if (URI === undefined) {
         module.failed = true;
@@ -15,22 +35,27 @@
                 module.failed = true;
             },
             success: function(unused, unused2, jqXHR) {
-                module.tdViewProtoPerson = $(jqXHR.responseText).find('#template_person');
-                module.tdViewProtoPlace = $(jqXHR.responseText).find('#template_place');
-                module.tdViewProtoItem = $(jqXHR.responseText).find('#template_item');
-                module.failed = (module.tdViewProtoPerson.length === undefined ||
-                        module.tdViewProtoPerson.length !== 1||
-                        module.tdViewProtoPlace.length === undefined ||
-                        module.tdViewProtoPlace.length !== 1||
-                        module.tdViewProtoItem.length === undefined ||
-                        module.tdViewProtoItem.length !== 1                     
+				var responseDOM = $(jqXHR.responseText),
+                    tdViewPersonDOM = responseDOM.find('#template_person'),
+                    tdViewPlaceDOM = responseDOM.find('#template_place'),
+                    tdViewItemDOM = responseDOM.find('#template_item');
+                module.failed = (tdViewPersonDOM.length === undefined ||
+                        tdViewPersonDOM.length !== 1||
+                        tdViewPlaceDOM.length === undefined ||
+                        tdViewPlaceDOM.length !== 1||
+                        tdViewItemDOM.length === undefined ||
+                        tdViewItemDOM.length !== 1                     
                         );
-                module.tdViewProtoPerson.find('.remove-for-production').remove();
-                module.tdViewProtoPerson.removeAttr('id');
-                module.tdViewProtoPlace.find('.remove-for-production').remove();
-                module.tdViewProtoPlace.removeAttr('id');
-                module.tdViewProtoItem.find('.remove-for-production').remove();
-                module.tdViewProtoItem.removeAttr('id');
+                if (module.failed) {return;}
+                tdViewPersonDOM.find('.remove-for-production').remove();
+                tdViewPersonDOM.removeAttr('id');
+                tdViewPlaceDOM.find('.remove-for-production').remove();
+                tdViewPlaceDOM.removeAttr('id');
+                tdViewItemDOM.find('.remove-for-production').remove();
+                tdViewItemDOM.removeAttr('id');						
+                module.tdViewProtoPerson = _.template(tdViewPersonDOM.outerHTML(), mustacheLikeTemplate);
+                module.tdViewProtoPlace = _.template(tdViewPlaceDOM.outerHTML(), mustacheLikeTemplate);
+                module.tdViewProtoItem = _.template(tdViewItemDOM.outerHTML(), mustacheLikeTemplate);
             }
         });
     }
@@ -69,6 +94,7 @@
                 } else if (tagData.place !== undefined) {
                     tagData = firstIfArray('place', tagData);
                 }
+				amendLangAndTypeProperties(tagData);
                 module.tagData[tagData[tagData.dataType]['xml:id']] = tagData;
             },
             complete: function() {
@@ -87,19 +113,6 @@
         return tagData;        
     }
 
-    var createTagLine = function(tagDataViewLine, label, text) {
-        if (text === undefined)
-            text = 'n.a.';
-        tagDataViewLine.each(function(unused, element) {
-            var $el = $(element);
-            if ($el.is('.label'))
-                $el.text(label);
-            else if ($el.is('.text'))
-                $el.text(text);
-        });
-        return tagDataViewLine;
-    };
-
     // Note the somwhat unusual usage of this here!
     var createNameLine = function(name) {
         createTagLine(this.tagDataViewLine.clone(), 'Also known as (' + name['xml:lang'] + ')', name['#text'])
@@ -109,97 +122,16 @@
     var createAndAttachTagData = function(tagRef, theTagged) {
         //create tag data view
         var tagDataView = {},
-            tagDataViewLine = $(module.tdViewProto.html()),
-            data = module.tagData[tagRef],
-            type = data.dataType;
-        if (type === 'item') {
-            tagDataView = module.tdViewProtoItem.clone();
-            var text = $.isArray(data.item.name) ? data.item.name[0]['#text'] : data.item.name['#text'];
-            if (text === undefined)
-                text = 'n.a.';
-            tagDataView.find('.text').text(text);
-            createTagLine(tagDataViewLine.clone(), 'Type', data.item.type)
-                    .appendTo(tagDataView);
-            if (data.item.cit.sense !== undefined) {
-                var createSense = function(sense) {
-                    if (sense['xml:lang'] === 'la') {
-                        createTagLine(tagDataViewLine.clone(), 'Meaning (in latin)', sense['#text'])
-                                .appendTo(tagDataView);
-                    } else if (sense['xml:lang'] === 'en-UK') {
-                        createTagLine(tagDataViewLine.clone(), 'Meaning (in english)', sense['#text'])
-                                .appendTo(tagDataView);
-                    }
-                };
-                $.isArray(data.item.cit.sense) ? data.item.cit.sense.forEach(createSense) : createSense(data.item.cit.sense);
-            }
-            if (data.item.ab !== undefined) {
-                createTagLine(tagDataViewLine.clone(), 'Note', data.item.ab.note)
-                        .appendTo(tagDataView);
-            }
-        } else if (type === 'person') {
-            tagDataView = module.tdViewProtoPerson.clone();
-            var text = $.isArray(data.person.persName) ? data.person.persName[0]['#text'] : data.person.persName['#text'];
-            if (text === undefined)
-                text = 'n.a.';
-            tagDataView.find('.text').text(text);
-            if ($.isArray(data.person.persName)) {
-                var param = {
-                    tagDataView: tagDataView,
-                    tagDataViewLine: tagDataViewLine
-                };
-                data.person.persName.forEach(createNameLine, param); // TODO filter first/preferred
-            }
-            createTagLine(tagDataViewLine.clone(), 'Known for his work as', data.person.occupation)
-                    .appendTo(tagDataView);
-            createTagLine(tagDataViewLine.clone(), 'Died', data.person.death)
-                    .appendTo(tagDataView);
-            if (data.person.floruit !== undefined) {
-                var text = '';
-                if (data.person.floruit['to-custom'] !== undefined) {
-                    text = 'From ' + data.person.floruit['from-custom'] + ' to ' + data.person.floruit['to-custom'];
-                } else if (data.person.floruit['from-custom'] !== undefined) {
-                    text = data.person.floruit['from-custom'];
-                }
-                createTagLine(tagDataViewLine.clone(), 'Most active (fl.)', text)
-                        .appendTo(tagDataView);
-            }
-            if (data.person.note !== undefined) {
-                createTagLine(tagDataViewLine.clone(), 'Note', data.person.note)
-                        .appendTo(tagDataView);
-            }
-        } else if (type === 'place') {
-            tagDataView = module.tdViewProtoPlace.clone();
-            var text = data.place.placeName['#text']
-            if (text === undefined)
-                text = 'n.a.';
-            tagDataView.find('.text').text(text);
-            if (data.place.placeName.addName !== undefined) {
-                var param = {
-                    tagDataView: tagDataView,
-                    tagDataViewLine: tagDataViewLine
-                };
-                if (Array.isArray(data.place.placeName.addName)) {
-                    data.place.placeName.addName.forEach(createNameLine, param);
-                } else {
-                    createNameLine.call(param, data.place.placeName.addName);
-                }
-            }
-            var type = 'place';
-            try
-            {
-                type = Object.keys(data.place.location)[0];
-                createTagLine(tagDataViewLine.clone(), 'This belongs today to the ' + type, data.place.location[type])
-                        .appendTo(tagDataView);
-            }
-            catch (TypeError) {
-            } // location is not specified
-            if (data.place.note !== undefined) {
-                createTagLine(tagDataViewLine.clone(), 'Note', data.place.note)
-                        .appendTo(tagDataView);
-            }
+            data = module.tagData[tagRef]
+        if (data.dataType === 'item') {
+            tagDataView = $(module.tdViewProtoItem(data));
+        } else if (data.dataType === 'person') {
+            tagDataView = $(module.tdViewProtoPerson(data));
+            // clean
+        } else if (data.dataType === 'place') {
+            tagDataView = $(module.tdViewProtoPlace(data));
         } else
             return;
-        tagDataView.find('br:last').remove();
         tagDataView.appendTo(theTagged);
     };
 

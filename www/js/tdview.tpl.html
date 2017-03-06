@@ -52,26 +52,26 @@
             </p>
             <p>344	<span class="tagged-data name auxSubst" data-tag-ref="AF268d27e198165/uni_darling_d27e198395">Żamad<span class="tdview" id="template_item">
                         <span class="label">Name (ottoman)</span>
-                        <span class="text">{{ name['preferred'].#text }}</span>
+                        <span class="text">{{ item.name['preferred']['#text'] }}</span>
                         <br/>
                         <span class="label">Meaning (in english)</span>
-                        <span class="text">{{ cit.sense['en-UK'].#text }}</span>
+                        <span class="text">{{ item.cit.sense['en-UK']['#text'] }}</span>
                         <br class=""/>
                         <span class="label">Meaning (in latin)</span>
-                        <span class="text">{{ cit.sense['la'].#text }}</span>
+                        <span class="text">{{ item.cit.sense['la']['#text'] }}</span>
                         <br class=""/>
                         <span class="label">Note</span>
-                        <span class="text">{{ note }}</span>
+                        <span class="text">{{ item.note }}</span>
                     </span>
                 </span>‑i [!] <span class="tagged-data persName " data-tag-ref="AF268d27e198165/uni_darling_d27e198434">Dāniyāl<span class="tdview" id="template_person">
                         <span class="label">Name (ottoman)</span>
-                        <span class="text">{{ persName['preferred'].#text }}</span>
+                        <span class="text">{{ person.persName['preferred']['#text'] }}</span>
                         <br/>
                         <span class="label">Occupation</span>
-                        <span class="text">[{ occupation }}</span>
+                        <span class="text">{{ person.occupation }}</span>
                         <br/>
                         <span class="label">Note</span>
-                        <span class="text">{{ note }}</span>
+                        <span class="text">{{ person.note }}</span>
                     </span>
                 </span>ı eyle aña <br/>	Eyü olub seni duʿāda aña</p>
             <p>ʿilāc‑i <span class="tagged-data name illness" data-tag-ref="d25e193197/d25e193526">raʿşe<span class="tdview">
@@ -89,13 +89,13 @@
             <p>
                 <span class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke<span class="tdview" id="template_place">
                     <span class="label">Name (ottoman)</span>
-                    <span class="text">{{ persName['preferred'].#text }}</span><br/>                    
+                    <span class="text">{{ place.placeName['preferred']['#text'] }}</span><br/>                    
                     <span class="label">Also known as (en-UK)</span>
-                    <span class="text">{{ persName['en-UK'].#text }}</span><br/>
+                    <span class="text">{{ place.placeName['en-UK']['#text'] }}</span><br/>
                     <span class="label">This belongs today to the country</span>
-                    <span class="text">{{ location.country.#text }}</span><br/>
+                    <span class="text">{{ place.location.country['#text'] }}</span><br/>
                     <span class="label">Note</span>
-                    <span class="text">{{ note }}</span>
+                    <span class="text">{{ place.note }}</span>
                 </span>
                 </span>‑i mükerrimeden bir şeyḫüñ vāqiʿasında girüb buyurdılar yā şeyḫ ol iki ṭaş diyār‑i <span class="tagged-data placeName " data-tag-ref="AF268d23e170522/d23e96523">Rūm<span class="tdview">
                     <span class="label">Name (ottoman)</span>

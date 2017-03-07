@@ -135,6 +135,10 @@ describe("TDView", function(){
 				$('.tagged-data.name > .tdview').should.not.exist;
 				TDView.attachTagData(function(){
 					$('.tagged-data.name > .tdview').should.exist;
+					var texts = $('.tagged-data.name > .tdview .text');
+					texts[0].textContent.should.equal('żamad', 'Item name is wrong!');
+					texts[1].textContent.should.equal('bandage; medical application; ointment', 'Item english translation is wrong!');
+					texts[2].textContent.should.equal('fascia', 'Item latin translation is wrong!');
 			    	done();					
 				});
 				requests[0].respond(200, {

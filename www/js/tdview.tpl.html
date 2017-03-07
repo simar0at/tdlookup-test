@@ -52,20 +52,23 @@
             </p>
             <p>344	<span class="tagged-data name auxSubst" data-tag-ref="AF268d27e198165/uni_darling_d27e198395">Żamad<span class="tdview" id="template_item">
                         <span class="label">Name (ottoman)</span>
-                        <span class="text">{{ item.name['preferred']['#text'] }}</span>
+                        <span class="text">{{ item.name['preferred'] }}</span>
                         <br/>
                         <span class="label">Meaning (in english)</span>
-                        <span class="text">{{ item.cit.sense['en-UK']['#text'] }}</span>
+                        <span class="text">{{ item.cit.sense['en-UK'] }}</span>
                         <br class=""/>
                         <span class="label">Meaning (in latin)</span>
-                        <span class="text">{{ item.cit.sense['la']['#text'] }}</span>
+                        <span class="text">{{ item.cit.sense['la'] }}</span>
                         <br class=""/>
                         <span class="label">Note</span>
                         <span class="text">{{ item.note }}</span>
                     </span>
                 </span>‑i [!] <span class="tagged-data persName " data-tag-ref="AF268d27e198165/uni_darling_d27e198434">Dāniyāl<span class="tdview" id="template_person">
                         <span class="label">Name (ottoman)</span>
-                        <span class="text">{{ person.persName['preferred']['#text'] }}</span>
+                        <span class="text">{{ person.persName['preferred'] }}</span>
+                        <br/>
+                        <span class="label">Other names</span>
+                        <span class="text">{{ _.join(_.slice(person.persName['variant']['#text'], 0, 5), ', ') }}</span>
                         <br/>
                         <span class="label">Occupation</span>
                         <span class="text">{{ person.occupation }}</span>
@@ -89,11 +92,11 @@
             <p>
                 <span class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke<span class="tdview" id="template_place">
                     <span class="label">Name (ottoman)</span>
-                    <span class="text">{{ place.placeName['preferred']['#text'] }}</span><br/>                    
+                    <span class="text">{{ place.placeName['preferred'] }}</span><br/>                    
                     <span class="label">Also known as (en-UK)</span>
-                    <span class="text">{{ place.placeName['en-UK']['#text'] }}</span><br/>
+                    <span class="text">{{ place.placeName['en-UK'] }}</span><br/>
                     <span class="label">This belongs today to the country</span>
-                    <span class="text">{{ place.location.country['#text'] }}</span><br/>
+                    <span class="text">{{ place.location.country }}</span><br/>
                     <span class="label">Note</span>
                     <span class="text">{{ place.note }}</span>
                 </span>

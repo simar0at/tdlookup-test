@@ -68,7 +68,7 @@
                         <span class="text">{{ person.persName['preferred'] }}</span>
                         <br/>
                         <span class="label">Other names</span>
-                        <span class="text">{{ _.join(_.slice(person.persName['variant']['#text'], 0, 5), ', ') }}</span>
+                        <span class="text">{{ join_max(person.persName['variant']['#text']) }}</span>
                         <br/>
                         <span class="label">Occupation</span>
                         <span class="text">{{ person.occupation }}</span>

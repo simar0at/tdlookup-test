@@ -138,7 +138,7 @@ describe("TDView", function(){
 					var texts = $('.tagged-data.name > .tdview .text');
 					texts[0].textContent.should.equal('żamad', 'Item name is wrong!');
 					texts[1].textContent.should.equal('bandage; medical application; ointment', 'Item english translation is wrong!');
-					texts[2].textContent.should.equal('fascia', 'Item latin translation is wrong!');
+					//texts[2].textContent.should.equal('fascia', 'Item latin translation is wrong!');
 			    	done();					
 				});
 				requests[0].respond(200, {
@@ -148,7 +148,7 @@ describe("TDView", function(){
 				requests[1].respond(200, {
 					"Content-Type": "application/json" 
 					},
-                    '{ "item" : { "xml:id" : "uni_darling_d27e198398", "name" : { "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "żamad" }, "cit" : { "type" : "translation", "sense" : [{ "xml:lang" : "en-UK", "#text" : "bandage; medical application; ointment" }, { "xml:lang" : "la", "#text" : "fascia" }] }, "note" : "correct version: żımād" }, "count" : "1" }');
+                    '{ "item" : { "xml:id" : "uni_darling_d27e198398", "name" : { "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "żamad" }, "cit" : { "type" : "translation", "sense" : { "xml:lang" : "en-UK", "#text" : "bandage; medical application; ointment" }}, "note" : "correct version: żımād" }, "count" : "1" }');
 			});								
 		})
 	});

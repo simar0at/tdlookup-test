@@ -188,6 +188,39 @@
     };
 
     // easy the templating
+	
+	function beautifyJSONResponse(jsonResponse) {
+		var beautifiedResponse;
+		var groups = _.groupBy(jsonResponse.person["persName"], function (value) {
+			return value['xml:lang'] + '#' + value['type']
+		});
+
+		var data = _.map(groups, function (group) {
+			return {
+				lang : group[0]['xml:lang'],
+				type : group[0]['type']
+			}
+		});
+
+		var persNameTypes = _.each(data, function (element, index) {
+			var persNamesByType = _.pluck(_.where(jsonResponse.person['persName'], {
+						'type' : element["type"],
+						'xml:lang' : element["lang"]
+					}), "#text");
+			jsonResponse.person.persName[element["type"]] = {};
+			if (persNamesByType.length == 1) {
+				jsonResponse.person.persName[element["type"]]["#text"] = persNamesByType.toString();
+			} else {
+				jsonResponse.person.persName[element["type"]]["#text"] = persNamesByType
+			};
+		});
+
+		beautifiedResponse = jsonResponse;
+
+		return beautifiedResponse;
+    }
+    
+    module.beautifyJSONResponse = beautifyJSONResponse;
 
     function amendLangAndTypeProperties(object) {
         var xml_langs = getAllPossibleValuesForKeyDeep(object, 'xml:lang'),

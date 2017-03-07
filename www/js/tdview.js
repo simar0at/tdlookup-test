@@ -214,11 +214,11 @@
     }
 
     function injectGetterDeep(object, filterKey, filterValue) {
-        _.map(object, function(value, key) {
-            if (_.isObject(value)) {
-                addGetterProperty(value, filterValue, _.bind(returnFilteredArrayOrItem, this, key, value, filterKey, filterValue))
-                injectGetterDeep(value, filterKey, filterValue);
-            } 
+        _.map(object, function(potentialObject, key) {
+            if (_.isObject(potentialObject)) {
+                addGetterProperty(potentialObject, filterValue, _.bind(returnFilteredArrayOrItem, this, key, potentialObject, filterKey, filterValue))
+                injectGetterDeep(potentialObject, filterKey, filterValue);
+            }
         });        
     }
 
@@ -229,12 +229,13 @@
     }
 
     function returnFilteredArrayOrItem(objectName, object_or_array, filterKey, filterValue) {
+		var result = undefined;
         if (_.isArray(object_or_array)) {
             var filteredArray = _.filter(object_or_array, function(value) {
                 return value[filterKey] === filterValue; 
             });
-            if (filteredArray.length === 1) {return filteredArray[0];}
-            if (filteredArray.length > 1) {return _.reduce(filteredArray, function(objValue,srcValue) {               
+            if (filteredArray.length === 1) {result = filteredArray[0];}
+            if (filteredArray.length > 1) {result = _.reduce(filteredArray, function(objValue,srcValue) {               
                 _.forEach(_.keys(srcValue), function(key) {
                     if (objValue[key] === undefined) {objValue[key] = [];}
                     objValue[key] = _.concat(objValue[key], srcValue[key]);
@@ -243,12 +244,37 @@
             }, {});
             }
         } else if (object_or_array[filterKey] === filterValue) {
-            return object_or_array;
+            result = object_or_array;
         }
-        //undefined
+		result.toString = hashTextAsToString;
+        return result;
     }
+	
+	function hashTextAsToString() {
+		var result = this['#text'];
+		if (_.isArray(result)) {
+			result = _.join(result, ', ')
+	    }
+		return result;
+	}
 
     module.amendLangAndTypeProperties = amendLangAndTypeProperties;
+
+    function join_max(strings, concat_with, max, etc_string) {
+    	var result = "";
+    	max = max === undefined ? 5 : max;
+    	concat_with = concat_with === undefined ? ', ' : concat_with;
+    	etc_string = etc_string === undefined ? '...' : etc_string;
+    	if (_.isArray(strings)) {
+    		result = _.join(_.slice(strings, 0, max), concat_with)
+    		if (strings.length > max) result += etc_string;
+    	} else {
+    		result = strings;
+    	}
+    	return result;
+    }
+
+    this.join_max = join_max;
 
     // publish
     this.TDView = module;

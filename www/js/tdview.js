@@ -323,21 +323,21 @@
 
     module.amendLangAndTypeProperties = amendLangAndTypeProperties;
 
-    function join_max(strings, concat_with, max, etc_string) {
+    function join_text_max(object_with_strings, concat_with, max, etc_string) {
     	var result = "";
     	max = max === undefined ? 5 : max;
     	concat_with = concat_with === undefined ? ', ' : concat_with;
     	etc_string = etc_string === undefined ? '...' : etc_string;
-    	if (_.isArray(strings)) {
-    		result = _.join(_.slice(strings, 0, max), concat_with)
-    		if (strings.length > max) result += etc_string;
+    	if (_.isArray(object_with_strings)) {
+    		result = _.join(_.slice(object_with_strings['#text'], 0, max), concat_with)
+    		if (object_with_strings['#text'].length > max) result += etc_string;
     	} else {
-    		result = strings;
+    		result = object_with_strings['#text'];
     	}
     	return result;
     }
 
-    this.join_max = join_max;
+    this.join_text_max = join_text_max;
 
     // publish
     this.TDView = module;

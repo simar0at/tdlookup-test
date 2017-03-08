@@ -68,7 +68,7 @@
                         <span class="text">{{ person.persName['preferred'] }}</span>
                         <br/>
                         <span class="label">Other names</span>
-                        <span class="text">{{ join_max(person.persName['variant']['#text']) }}</span>
+                        <span class="text">{{ join_text_max(person.persName['variant']) }}</span>
                         <br/>
                         <span class="label">Occupation</span>
                         <span class="text">{{ person.occupation }}</span>
@@ -98,9 +98,14 @@
             <p>
                 <span class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke<span class="tdview" id="template_place">
                     <span class="label">Name (ottoman)</span>
-                    <span class="text">{{ place.placeName['preferred'] }}</span><br/>                    
-                    <span class="label">Also known as (en-UK)</span>
-                    <span class="text">{{ place.placeName['en-UK'] }}</span><br/>
+                    <span class="text">{{ place.placeName['preferred'] }}</span>
+                    <br/>
+                    <span class="label">Other names</span>
+                    <span class="text">{{ join_text_max(place.placeName['variant']) }}</span>
+					<br/>                  
+                    <span class="label">English name</span>
+                    <span class="text">{{ place.placeName['en-UK'] }}</span>
+					<br/>
                     <span class="label">This belongs today to the country</span>
                     <span class="text">{{ place.location.country }}</span><br/>
                     <span class="label">Note</span>

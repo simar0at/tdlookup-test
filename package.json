@@ -6,7 +6,8 @@
   "dependencies": {
     "consolidate": "^0.14.5",
     "express": "^4.14.0",
-    "lodash": "4.17.4"
+    "lodash": "4.17.4",
+    "xml2json": "^0.11.0"
   },
   "devDependencies": {
     "body-parser": "^1.15.2",

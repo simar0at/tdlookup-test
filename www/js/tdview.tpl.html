@@ -51,64 +51,71 @@
                 <span class="mecmua_Kommentare_zur_Handschrift">AF268: 94r</span>
             </p>
             <p>344	<span class="tagged-data name auxSubst" data-tag-ref="AF268d27e198165/uni_darling_d27e198395">Żamad<span class="tdview" id="template_item">
-                        <span class="label">Name (ottoman)</span>
+                        <span class="label">Name (ottoman): </span>
                         <span class="text">{{ item.name['preferred'] }}</span>
                         <br/>
-                        <span class="label">Meaning (in english)</span>
+						<span class="text">A {{ item.type }}</span>
+						<br/>
+                        <span class="label">Other names: </span>
+                        <span class="text">{{ join_text_max(item.name['variant']) }}</span>
+                        <br/>
+						<span class="label">Meaning (in english): </span>
                         <span class="text">{{ item.cit.sense['en-UK'] }}</span>
                         <br class=""/>
-                        <span class="label">Meaning (in latin)</span>
+                        <span class="label">Meaning (in latin): </span>
                         <span class="text">{{ item.cit.sense['la'] }}</span>
                         <br class=""/>
-                        <span class="label">Note</span>
+                        <span class="label">Note: </span>
                         <span class="text">{{ item.note }}</span>
                     </span>
                 </span>‑i [!] <span class="tagged-data persName " data-tag-ref="AF268d27e198165/uni_darling_d27e198434">Dāniyāl<span class="tdview" id="template_person">
-                        <span class="label">Name (ottoman)</span>
+                        <span class="label">Name (ottoman): </span>
                         <span class="text">{{ person.persName['preferred'] }}</span>
                         <br/>
-                        <span class="label">Other names</span>
+                        <span class="label">Other names: </span>
                         <span class="text">{{ join_text_max(person.persName['variant']) }}</span>
                         <br/>
-                        <span class="label">Occupation</span>
+                        <span class="label">Occupation: </span>
                         <span class="text">{{ person.occupation }}</span>
                         <br/>
-                        <span class="label">Died</span>
+                        <span class="label">Died: </span>
                         <span class="text">{{ person.death }}</span>
                         <br/>
-                        <span class="label">Flourit</span>
+                        <span class="label">Known active in: </span>
                         <span class="text">{{ person.floruit }}</span>
                         <br/>
-                        <span class="label">Note</span>
+                        <span class="label">Note: </span>
                         <span class="text">{{ person.note }}</span>
                     </span>
                 </span>ı eyle aña <br/>	Eyü olub seni duʿāda aña</p>
             <p>ʿilāc‑i <span class="tagged-data name illness" data-tag-ref="d25e193197/d25e193526">raʿşe<span class="tdview">
-                        <span class="label">Name (ottoman)</span>
+                        <span class="label">Name (ottoman): </span>
                         <span class="text">raʿşe</span>
                         <br/>
-                        <span class="label">Meaning (in english)</span>
+                        <span class="label">Meaning (in english): </span>
                         <span class="text">tremble, tremor</span>
                         <br/>
-                        <span class="label">Meaning (in latin)</span>
+                        <span class="label">Meaning (in latin): </span>
                         <span class="text">n.a.</span>
                     </span>
                 </span>
             </p>
             <p>
                 <span class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke<span class="tdview" id="template_place">
-                    <span class="label">Name (ottoman)</span>
+                    <span class="label">Name (ottoman):</span>
                     <span class="text">{{ place.placeName['preferred'] }}</span>
                     <br/>
-                    <span class="label">Other names</span>
+                    <span class="text">A {{ place.type }}</span>
+					<br/> 
+                    <span class="label">Other names:</span>
                     <span class="text">{{ join_text_max(place.placeName['variant']) }}</span>
 					<br/>                  
-                    <span class="label">English name</span>
+                    <span class="label">English name:</span>
                     <span class="text">{{ place.placeName['en-UK'] }}</span>
 					<br/>
-                    <span class="label">This belongs today to the country</span>
+                    <span class="label">This belongs today:</span>
                     <span class="text">{{ place.location.country }}</span><br/>
-                    <span class="label">Note</span>
+                    <span class="label">Note:</span>
                     <span class="text">{{ place.note }}</span>
                 </span>
                 </span>‑i mükerrimeden bir şeyḫüñ vāqiʿasında girüb buyurdılar yā şeyḫ ol iki ṭaş diyār‑i <span class="tagged-data placeName " data-tag-ref="AF268d23e170522/d23e96523">Rūm<span class="tdview">

@@ -117,7 +117,7 @@
             tagData[dataType] = tagData[dataType][0];
         }
         tagData.dataType = dataType;
-        console.log("Trace: loaded id "+tagData[dataType]['xml:id']+".");
+        // console.log("Trace: loaded id "+tagData[dataType]['xml:id']+".");
         return tagData;        
     }
 
@@ -147,12 +147,14 @@
 
     var tagsToFetch = 0;
 
-    var syncAndTag = function(taggedWords, whenDone) {
+    var syncAndTag = function(taggedWordsSelector, whenDone) {
         setTimeout(function() {
             if (tagsToFetch !== 0) {
-                syncAndTag(taggedWords, whenDone);
+                // console.log('waiting for '+tagsToFetch+' tag data');
+                syncAndTag(taggedWordsSelector, whenDone);
             } else {
-                taggedWords.each(function(unused, element) {
+                // console.log('tagging');
+                $(taggedWordsSelector).each(function(unused, element) {
                     var theTagged = $(element);
                     //sanity checks
                     var pidAndTagRef = theTagged.data("tag-ref");
@@ -164,7 +166,7 @@
                 });
                 whenDone();
             }
-        }, 5);
+        }, 25);
     };
 
     /**
@@ -174,9 +176,11 @@
     module.attachTagData = function(whenDone) {
         if (module.failed)
             return;
-        var taggedWords = $(".tagged-data");
-        tagsToFetch = 0;
-        taggedWords.each(function(unused, element) {
+        if (tagsToFetch !== 0)
+            return;
+        var taggedWordsSelector = ".tagged-data",            
+            pidAndTagRefsToFetch = [];
+        $(taggedWordsSelector).each(function(unused, element) {
             var theTagged = $(element);
             //sanity checks
             var pidAndTagRef = theTagged.data("tag-ref");
@@ -191,10 +195,9 @@
                 tagsToFetch++;
                 module.fetchTagsDecl(params.tdLookupEndpoint + '/' + pidAndTagRef, function() {
                     tagsToFetch--;
-                });
-            }
+            });
         });
-        syncAndTag(taggedWords, whenDone);
+        syncAndTag(taggedWordsSelector, whenDone);
     };
 
     // easy the templating
@@ -325,10 +328,11 @@
 
     function join_text_max(object_with_strings, concat_with, max, etc_string) {
     	var result = "";
+		object_with_strings = object_with_strings === undefined ? {'#text': ''} : object_with_strings;
     	max = max === undefined ? 5 : max;
     	concat_with = concat_with === undefined ? ', ' : concat_with;
     	etc_string = etc_string === undefined ? '...' : etc_string;
-    	if (_.isArray(object_with_strings)) {
+    	if (_.isArray(object_with_strings['#text'])) {
     		result = _.join(_.slice(object_with_strings['#text'], 0, max), concat_with)
     		if (object_with_strings['#text'].length > max) result += etc_string;
     	} else {

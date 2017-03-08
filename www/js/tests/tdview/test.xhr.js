@@ -6,17 +6,23 @@ function loadFixture(htmlFile) {
             dataType: 'html',
             success: function(unused, unused2, jqXHR) {
                 $('#fixture').html($(jqXHR.responseText));
-            }
+            },
+			error: function(unused, status, error){throwLoadError(htmlFile, status, error);}
         });
     return ret;
 }
 
-function loadJSON(htmlFile) {
+function loadJSON(jsonFile) {
 	var ret = $.ajax({
-		    url: 'fixtures/' + htmlFile,
-            dataType: 'json'
+		    url: 'fixtures/' + jsonFile,
+            dataType: 'json',
+			error: function(unused, status, error){throwLoadError(jsonFile, status, error);}
         });
     return ret;
+}
+
+function throwLoadError(fileName, status, error) {
+	throw new Error("File loading failed for "+fileName+". Status: "+status+" Error: "+error+".");
 }
 
 function stubAjax() {
@@ -98,7 +104,25 @@ describe("TDView", function(){
 					},
                     '{ "person" : { "xml:id" : "uni_sima_d27e1921", "persName" : [{ "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "Daniyāl peyġamber" }, { "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "Dāniyāl" }], "occupation" : "Prophet", "death" : "n.a.", "floruit" : { "from-custom" : "n.a." }, "note" : "Daniel; “two biblical characters bearing the same Daniel, the sage of ancient times mentioned by Ezekiel (…) and the visionary who lived at the time of the captivity in Babylon” [Cf. EI2, s.v. Dāniyāl]" }, "count" : "1" }');
 			});								
-		})
+		});
+		it("should remove empty .label .text pairs", function(done){
+			loadJSON('muhammed.json').done(function(jsonData){
+				loadFixture('muhammed.html').done(function(){					
+					stubAjax();
+					TDView.attachTagData(function(){						
+						$(".text:empty").prev(".label").should.not.exist;												
+				        $(".text:empty").should.not.exist;
+						done();
+					});
+					var muhammedJSON = JSON.stringify(jsonData);
+					requests[0].respond(200, {
+						"Content-Type": "application/json" 
+						},
+						muhammedJSON
+					);
+				});
+			});
+		});
 	});
 	describe("Get a place's name", function(){
 		it("should load the fixture for Mekka", function(done){
@@ -112,7 +136,9 @@ describe("TDView", function(){
 				stubAjax();
 				$('.tagged-data.placeName > .tdview').should.not.exist;
 				TDView.attachTagData(function(){
-					$('.tagged-data.placeName > .tdview').should.exist;
+					$('.tagged-data.placeName > .tdview').should.exist;						
+					$(".text:empty").prev(".label").should.not.exist;												
+				    $(".text:empty").should.not.exist;
 			    	done();					
 				});
 				requests[0].respond(200, {
@@ -134,7 +160,9 @@ describe("TDView", function(){
 				stubAjax();
 				$('.tagged-data.name > .tdview').should.not.exist;
 				TDView.attachTagData(function(){
-					$('.tagged-data.name > .tdview').should.exist;
+					$('.tagged-data.name > .tdview').should.exist;						
+					$(".text:empty").prev(".label").should.not.exist;												
+				    $(".text:empty").should.not.exist;
 					var texts = $('.tagged-data.name > .tdview .text');
 					texts[0].textContent.should.equal('żamad', 'Item name is wrong!');
 					texts[1].textContent.should.equal('bandage; medical application; ointment', 'Item english translation is wrong!');

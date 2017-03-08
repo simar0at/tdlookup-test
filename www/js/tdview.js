@@ -113,25 +113,24 @@
         return tagData;        
     }
 
-    // Note the somwhat unusual usage of this here!
-    var createNameLine = function(name) {
-        createTagLine(this.tagDataViewLine.clone(), 'Also known as (' + name['xml:lang'] + ')', name['#text'])
-                .appendTo(this.tagDataView);
-    };
-
     var createAndAttachTagData = function(tagRef, theTagged) {
         //create tag data view
         var tagDataView = {},
+		    emptyTexts,
+			emptyTextsLabels,
             data = module.tagData[tagRef]
         if (data.dataType === 'item') {
             tagDataView = $(module.tdViewProtoItem(data));
         } else if (data.dataType === 'person') {
             tagDataView = $(module.tdViewProtoPerson(data));
-            // clean
         } else if (data.dataType === 'place') {
             tagDataView = $(module.tdViewProtoPlace(data));
         } else
             return;
+		emptyTexts = tagDataView.find(".text:empty");
+		emptyTextsLabels = emptyTexts.prev(".label");
+		emptyTextsLabels.remove();
+		emptyTexts.remove();
         tagDataView.appendTo(theTagged);
     };
 

@@ -25,6 +25,14 @@
         })(this[0]));
     }
 
+    $.expr[':'].textEquals = $.expr.createPseudo(function(arg) {
+    	var exactMatcher = new RegExp("^" + arg + "$");
+    	return function(elem) {
+    		var match = $(elem).text().trim().match(exactMatcher);
+    		return match && match.length > 0;
+    	}
+    });
+
     if (URI === undefined) {
         module.failed = true;
     } else {
@@ -118,6 +126,7 @@
         var tagDataView = {},
 		    emptyTexts,
 			emptyTextsLabels,
+			needlessBr,
             data = module.tagData[tagRef]
         if (data.dataType === 'item') {
             tagDataView = $(module.tdViewProtoItem(data));
@@ -127,10 +136,12 @@
             tagDataView = $(module.tdViewProtoPlace(data));
         } else
             return;
-		emptyTexts = tagDataView.find(".text:empty");
+		emptyTexts = tagDataView.find(".text:empty, .text:textEquals(n.a.)");
 		emptyTextsLabels = emptyTexts.prev(".label");
+		needlessBr = emptyTextsLabels.prev("br");
 		emptyTextsLabels.remove();
 		emptyTexts.remove();
+		needlessBr.remove();
         tagDataView.appendTo(theTagged);
     };
 
@@ -188,38 +199,39 @@
 
     // easy the templating
 	
-	function beautifyJSONResponse(jsonResponse) {
-		var beautifiedResponse;
-		var groups = _.groupBy(jsonResponse.person["persName"], function (value) {
-			return value['xml:lang'] + '#' + value['type']
-		});
+	// unfinished, uses underscore (vs. rest is lodash) _.pluck -> _.map
+	// function beautifyJSONResponse(jsonResponse) {
+		// var beautifiedResponse;
+		// var groups = _.groupBy(jsonResponse.person["persName"], function (value) {
+			// return value['xml:lang'] + '#' + value['type']
+		// });
 
-		var data = _.map(groups, function (group) {
-			return {
-				lang : group[0]['xml:lang'],
-				type : group[0]['type']
-			}
-		});
+		// var data = _.map(groups, function (group) {
+			// return {
+				// lang : group[0]['xml:lang'],
+				// type : group[0]['type']
+			// }
+		// });
 
-		var persNameTypes = _.each(data, function (element, index) {
-			var persNamesByType = _.pluck(_.where(jsonResponse.person['persName'], {
-						'type' : element["type"],
-						'xml:lang' : element["lang"]
-					}), "#text");
-			jsonResponse.person.persName[element["type"]] = {};
-			if (persNamesByType.length == 1) {
-				jsonResponse.person.persName[element["type"]]["#text"] = persNamesByType.toString();
-			} else {
-				jsonResponse.person.persName[element["type"]]["#text"] = persNamesByType
-			};
-		});
+		// var persNameTypes = _.each(data, function (element, index) {
+			// var persNamesByType = _.pluck(_.where(jsonResponse.person['persName'], {
+						// 'type' : element["type"],
+						// 'xml:lang' : element["lang"]
+					// }), "#text");
+			// jsonResponse.person.persName[element["type"]] = {};
+			// if (persNamesByType.length == 1) {
+				// jsonResponse.person.persName[element["type"]]["#text"] = persNamesByType.toString();
+			// } else {
+				// jsonResponse.person.persName[element["type"]]["#text"] = persNamesByType
+			// };
+		// });
 
-		beautifiedResponse = jsonResponse;
+		// beautifiedResponse = jsonResponse;
 
-		return beautifiedResponse;
-    }
+		// return beautifiedResponse;
+    // }
     
-    module.beautifyJSONResponse = beautifyJSONResponse;
+    // module.beautifyJSONResponse = beautifyJSONResponse;
 
     function amendLangAndTypeProperties(object) {
         var xml_langs = getAllPossibleValuesForKeyDeep(object, 'xml:lang'),
@@ -229,7 +241,8 @@
         });
         _.forEach(types, function(filterValue){
             injectGetterDeep(object, 'type', filterValue);            
-        }); 
+        });
+        injectToStringDeep(object, 'floruit', flouritToString); 
     }
     
 
@@ -254,6 +267,24 @@
         });        
     }
 
+    function injectToStringDeep(object, filterKey, toStringFunction) {
+        _.map(object, function(potentialObject, key) {
+            if (_.isObject(potentialObject)) {
+                if (key === filterKey) {
+                	potentialObject.toString = toStringFunction;
+                }
+                injectToStringDeep(potentialObject, filterKey, toStringFunction);
+            }
+        });        
+    }
+
+	function flouritToString() {
+		var result = this['from-custom'];
+		if (result === undefined) {return '';}
+		result = this['to-custom'] ? result+'-'+this['to-custom'] : result;
+		return result;
+	}
+	
     function addGetterProperty(object, propertyName, getter) {
         Object.defineProperty(object, propertyName, {
             get: getter

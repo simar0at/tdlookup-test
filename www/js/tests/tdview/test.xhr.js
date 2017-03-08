@@ -83,6 +83,13 @@ describe("TDView", function(){
 				done(); 
 			});
 		});
+		it("should provide a floruit representation <from-custom>-<to-custom>", function(done) {
+			loadJSON('omar.json').done(function(jsonData){
+				TDView.amendLangAndTypeProperties(jsonData);
+				String(jsonData.person.floruit).should.equal('634-644');
+				done();
+			});
+		});
 	});
 	describe("Get a person's name", function(){
 		it("should load the fixture for Daniyal", function(done){
@@ -95,7 +102,8 @@ describe("TDView", function(){
 			loadJSON('muhammed.json').done(function(jsonData){
 				loadFixture('muhammed.html').done(function(){					
 					stubAjax();
-					TDView.attachTagData(function(){						
+					TDView.attachTagData(function(){
+					    $('br + br').should.not.exist;						
 						$(".text:empty").prev(".label").should.not.exist;												
 				        $(".text:empty").should.not.exist;						
 						$(".text:contains(n.a.)").prev(".label").should.not.exist;												
@@ -116,7 +124,8 @@ describe("TDView", function(){
 				stubAjax();
 				$('.tagged-data.persName > .tdview').should.not.exist;
 				TDView.attachTagData(function(){
-					$('.tagged-data.persName > .tdview').should.exist;						
+					$('.tagged-data.persName > .tdview').should.exist;
+					$('br + br').should.not.exist;						
 					$(".text:empty").prev(".label").should.not.exist;												
 				    $(".text:empty").should.not.exist;						
 				    $(".text:contains(n.a.)").prev(".label").should.not.exist;												
@@ -142,9 +151,12 @@ describe("TDView", function(){
 				stubAjax();
 				$('.tagged-data.placeName > .tdview').should.not.exist;
 				TDView.attachTagData(function(){
-					$('.tagged-data.placeName > .tdview').should.exist;						
+					$('.tagged-data.placeName > .tdview').should.exist;
+					$('br + br').should.not.exist;						
 					$(".text:empty").prev(".label").should.not.exist;												
-				    $(".text:empty").should.not.exist;
+				    $(".text:empty").should.not.exist;						
+				    $(".text:contains(n.a.)").prev(".label").should.not.exist;												
+				    $(".text:contains(n.a.)").should.not.exist;
 			    	done();					
 				});
 				requests[0].respond(200, {
@@ -166,9 +178,12 @@ describe("TDView", function(){
 				stubAjax();
 				$('.tagged-data.name > .tdview').should.not.exist;
 				TDView.attachTagData(function(){
-					$('.tagged-data.name > .tdview').should.exist;						
+					$('.tagged-data.name > .tdview').should.exist;
+					$('br + br').should.not.exist;						
 					$(".text:empty").prev(".label").should.not.exist;												
-				    $(".text:empty").should.not.exist;
+				    $(".text:empty").should.not.exist;						
+				    $(".text:contains(n.a.)").prev(".label").should.not.exist;												
+				    $(".text:contains(n.a.)").should.not.exist;
 					var texts = $('.tagged-data.name > .tdview .text');
 					texts[0].textContent.should.equal('żamad', 'Item name is wrong!');
 					texts[1].textContent.should.equal('bandage; medical application; ointment', 'Item english translation is wrong!');

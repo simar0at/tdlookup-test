@@ -91,27 +91,15 @@ describe("TDView", function(){
 				done();
 			});
 		});
-		it("should attach a person annotation", function(done){
-			loadFixture('daniyal.html').done(function(){
-				stubAjax();
-				$('.tagged-data.persName > .tdview').should.not.exist;
-				TDView.attachTagData(function(){
-					$('.tagged-data.persName > .tdview').should.exist;
-			    	done();					
-				});
-				requests[0].respond(200, {
-					"Content-Type": "application/json" 
-					},
-                    '{ "person" : { "xml:id" : "uni_sima_d27e1921", "persName" : [{ "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "Daniyāl peyġamber" }, { "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "Dāniyāl" }], "occupation" : "Prophet", "death" : "n.a.", "floruit" : { "from-custom" : "n.a." }, "note" : "Daniel; “two biblical characters bearing the same Daniel, the sage of ancient times mentioned by Ezekiel (…) and the visionary who lived at the time of the captivity in Babylon” [Cf. EI2, s.v. Dāniyāl]" }, "count" : "1" }');
-			});								
-		});
 		it("should remove empty .label .text pairs", function(done){
 			loadJSON('muhammed.json').done(function(jsonData){
 				loadFixture('muhammed.html').done(function(){					
 					stubAjax();
 					TDView.attachTagData(function(){						
 						$(".text:empty").prev(".label").should.not.exist;												
-				        $(".text:empty").should.not.exist;
+				        $(".text:empty").should.not.exist;						
+						$(".text:contains(n.a.)").prev(".label").should.not.exist;												
+				        $(".text:contains(n.a.)").should.not.exist;
 						done();
 					});
 					var muhammedJSON = JSON.stringify(jsonData);
@@ -122,6 +110,24 @@ describe("TDView", function(){
 					);
 				});
 			});
+		});
+		it("should attach a person annotation", function(done){
+			loadFixture('daniyal.html').done(function(){
+				stubAjax();
+				$('.tagged-data.persName > .tdview').should.not.exist;
+				TDView.attachTagData(function(){
+					$('.tagged-data.persName > .tdview').should.exist;						
+					$(".text:empty").prev(".label").should.not.exist;												
+				    $(".text:empty").should.not.exist;						
+				    $(".text:contains(n.a.)").prev(".label").should.not.exist;												
+				    $(".text:contains(n.a.)").should.not.exist;
+			    	done();					
+				});
+				requests[0].respond(200, {
+					"Content-Type": "application/json" 
+					},
+                    '{ "person" : { "xml:id" : "uni_sima_d27e1921", "persName" : [{ "xml:lang" : "ota-Latn-t", "type" : "variant", "#text" : "Daniyāl peyġamber" }, { "xml:lang" : "ota-Latn-t", "type" : "preferred", "#text" : "Dāniyāl" }], "occupation" : "Prophet", "death" : "n.a.", "floruit" : { "from-custom" : "n.a." }, "note" : "Daniel; “two biblical characters bearing the same Daniel, the sage of ancient times mentioned by Ezekiel (…) and the visionary who lived at the time of the captivity in Babylon” [Cf. EI2, s.v. Dāniyāl]" }, "count" : "1" }');
+			});								
 		});
 	});
 	describe("Get a place's name", function(){

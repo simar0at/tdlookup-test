@@ -54,12 +54,12 @@
                         <span class="label">Name (ottoman): </span>
                         <span class="text">{{ item.name['preferred'] }}</span>
                         <br/>
-						<span class="text">A {{ item.type }}</span>
-						<br/>
-                        <span class="label">Other names: </span>
+                        <span class="text">{{ get_user_readable_text_for_type(item.type) }}</span>
+                        <br/>
+                        <span class="label">Other names in this corpus: </span>
                         <span class="text">{{ join_text_max(item.name['variant']) }}</span>
                         <br/>
-						<span class="label">Meaning (in english): </span>
+                        <span class="label">Meaning (in english): </span>
                         <span class="text">{{ item.cit.sense['en-UK'] }}</span>
                         <br class=""/>
                         <span class="label">Meaning (in latin): </span>
@@ -72,7 +72,7 @@
                         <span class="label">Name (ottoman): </span>
                         <span class="text">{{ person.persName['preferred'] }}</span>
                         <br/>
-                        <span class="label">Other names: </span>
+                        <span class="label">Other names in this corpus: </span>
                         <span class="text">{{ join_text_max(person.persName['variant']) }}</span>
                         <br/>
                         <span class="label">Occupation: </span>
@@ -102,32 +102,36 @@
             </p>
             <p>
                 <span class="tagged-data placeName " data-tag-ref="AF268d27e170717/uni_sieverek_d27e6597">Mekke<span class="tdview" id="template_place">
-                    <span class="label">Name (ottoman):</span>
-                    <span class="text">{{ place.placeName['preferred'] }}</span>
-                    <br/>
-                    <span class="text">A {{ place.type }}</span>
-					<br/> 
-                    <span class="label">Other names:</span>
-                    <span class="text">{{ join_text_max(place.placeName['variant']) }}</span>
-					<br/>                  
-                    <span class="label">English name:</span>
-                    <span class="text">{{ place.placeName['en-UK'] }}</span>
-					<br/>
-                    <span class="label">This belongs today:</span>
-                    <span class="text">{{ place.location.country }}</span><br/>
-                    <span class="label">Note:</span>
-                    <span class="text">{{ place.note }}</span>
-                </span>
+                        <span class="label">Name (ottoman):</span>
+                        <span class="text">{{ place.placeName['preferred'] }}</span>
+                        <br/>
+                        <span class="text">{{ get_user_readable_text_for_type(place.type) }}</span>
+                        <br/>
+                        <span class="label">Other names in this corpus:</span>
+                        <span class="text">{{ join_text_max(place.placeName['variant']) }}</span>
+                        <br/>
+                        <span class="label">English name:</span>
+                        <span class="text">{{ place.placeName['en-UK'] }}</span>
+                        <br/>
+                        <span class="label">This belongs today:</span>
+                        <span class="text">{{ place.location.country }}</span>
+                        <br/>
+                        <span class="label">Note:</span>
+                        <span class="text">{{ place.note }}</span>
+                    </span>
                 </span>‑i mükerrimeden bir şeyḫüñ vāqiʿasında girüb buyurdılar yā şeyḫ ol iki ṭaş diyār‑i <span class="tagged-data placeName " data-tag-ref="AF268d23e170522/d23e96523">Rūm<span class="tdview">
-                    <span class="label">Name (ottoman)</span>
-                    <span class="text">Rūm</span><br/>
-                    <span class="label">Also known as (en-UK)</span>
-                    <span class="text">n.a.</span><br/>
-                    <span class="label">This belongs today to the country</span>
-                    <span class="text">n.a.</span><br/>
-                    <span class="label">Note</span>
-                    <span class="text">name applied to the territories of the lower Roman Empire, the Seljuqi kingdom and to the Ottoman Empire</span>
-                </span>
+                        <span class="label">Name (ottoman)</span>
+                        <span class="text">Rūm</span>
+                        <br/>
+                        <span class="label">Also known as (en-UK)</span>
+                        <span class="text">n.a.</span>
+                        <br/>
+                        <span class="label">This belongs today to the country</span>
+                        <span class="text">n.a.</span>
+                        <br/>
+                        <span class="label">Note</span>
+                        <span class="text">name applied to the territories of the lower Roman Empire, the Seljuqi kingdom and to the Ottoman Empire</span>
+                    </span>
                 </span>da
             </p>
         </div>

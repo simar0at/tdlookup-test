@@ -313,7 +313,7 @@
         } else if (object_or_array[filterKey] === filterValue) {
             result = object_or_array;
         }
-		result.toString = hashTextAsToString;
+		if (result !== undefined) {result.toString = hashTextAsToString;}
         return result;
     }
 	
@@ -326,6 +326,8 @@
 	}
 
     module.amendLangAndTypeProperties = amendLangAndTypeProperties;
+    
+    // text mangling as needed by mecmua
 
     function join_text_max(object_with_strings, concat_with, max, etc_string) {
     	var result = "";
@@ -343,7 +345,33 @@
     }
 
     this.join_text_max = join_text_max;
-
+    
+    var translations = {
+		    auxSubst: 'Some substance',
+		    textGenre: 'A text sort or some written work or part thereof',
+		    illness: 'An illness',
+		    plant: 'A plant',
+		    astrEnt: 'An astronomic or astrologic entity'
+		},
+		reAll__ = new RegExp('(__)'),
+		reAll_ = new RegExp('(_)');
+		
+	function get_user_readable_text_for_type(type) {
+		var result = undefined;
+		if (type !== undefined) {
+			if (_.indexOf(_.keys(translations), type) !== -1) {
+				result = translations[type];
+			} else {
+				result = 'A '+type;
+				result = result.replace(/(__)/g, ' or ');
+				result = result.replace(/(_)/g, ' ');
+			}
+		}
+		return result;
+	}
+	
+	this.get_user_readable_text_for_type = get_user_readable_text_for_type;
+	
     // publish
     this.TDView = module;
 }(window.jQuery, params, URI, _);

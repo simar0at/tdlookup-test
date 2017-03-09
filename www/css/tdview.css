@@ -37,10 +37,6 @@ span.tdview {
      display: block;
  }
 
-span.tdview .label:after {
-    content: ":\00a0"
-}
-
 span.tdview .label,
 span.tdview .text {
     display: inline-block;

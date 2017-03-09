@@ -195,7 +195,8 @@
                 tagsToFetch++;
                 module.fetchTagsDecl(params.tdLookupEndpoint + '/' + pidAndTagRef, function() {
                     tagsToFetch--;
-            });
+				});
+			}
         });
         syncAndTag(taggedWordsSelector, whenDone);
     };
